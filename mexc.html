@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lee Chi — MEXC 合约运营实习生申请</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05080f;
+    --surface: #0d1320;
+    --card: #111827;
+    --border: rgba(0,200,150,0.15);
+    --green: #00c896;
+    --green-dim: #007a5a;
+    --green-pale: rgba(0,200,150,0.08);
+    --white: #e8f0f8;
+    --gray: #6b7a90;
+    --accent: #00ffb3;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5,8,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--green);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 72px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,150,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,150,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%; left: 55%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,200,150,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-pale);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 0.1s;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 10vw, 140px);
+    line-height: 0.88;
+    letter-spacing: 3px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.25s;
+  }
+
+  .hero-name em {
+    color: var(--green);
+    font-style: normal;
+  }
+
+  .hero-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gray);
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .hero-desc {
+    margin-top: 36px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #8a9bb0;
+    max-width: 560px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.55s;
+  }
+
+  .hero-desc strong { color: var(--accent); font-weight: 500; }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 52px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.7s;
+  }
+
+  .hero-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .hero-cta {
+    margin-top: 52px;
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.85s;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: var(--bg);
+    padding: 14px 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+
+  .btn-ghost {
+    border: 1px solid var(--green-dim);
+    color: var(--green);
+    padding: 14px 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-ghost:hover { background: var(--green-pale); border-color: var(--green); }
+
+  /* ── SECTION BASE ── */
+  section { padding: 80px 72px; position: relative; z-index: 1; }
+
+  .sec-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--green-dim), transparent);
+    margin: 0 72px;
+  }
+
+  /* ── MATCH SECTION ── */
+  .match-section { background: var(--surface); }
+
+  .match-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+
+  .match-item {
+    background: var(--card);
+    padding: 32px 28px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s, transform 0.2s;
+    cursor: default;
+  }
+
+  .match-item:hover {
+    border-color: var(--green);
+    transform: translateY(-4px);
+  }
+
+  .match-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--green-dim);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .match-jd {
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 16px;
+    line-height: 1.6;
+    font-style: italic;
+    border-left: 2px solid var(--green-dim);
+    padding-left: 10px;
+  }
+
+  .match-me {
+    font-size: 13px;
+    color: #b0c0d4;
+    line-height: 1.7;
+  }
+
+  .match-me strong { color: var(--accent); font-weight: 500; }
+
+  .match-tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+    border: 1px solid var(--green-dim);
+    color: var(--green-dim);
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-section { background: var(--bg); }
+
+  .exp-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .exp-row {
+    background: var(--card);
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: start;
+    gap: 40px;
+    padding: 36px 40px;
+    border-left: 3px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .exp-row:hover { border-color: var(--green); }
+
+  .exp-meta { }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--green-dim);
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+
+  .exp-co { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+
+  .exp-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 1px;
+  }
+
+  .exp-body { font-size: 13px; color: #8a9bb0; line-height: 1.8; }
+  .exp-body strong { color: var(--accent); font-weight: 500; }
+
+  .exp-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+    min-width: 100px;
+  }
+
+  .etag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--green-dim);
+    border: 1px solid rgba(0,200,150,0.2);
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  /* ── COVER ── */
+  .cover-section { background: var(--surface); }
+
+  .cover-box {
+    max-width: 740px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    padding: 52px 56px;
+    font-size: 14px;
+    line-height: 2.1;
+    color: #8a9bb0;
+  }
+
+  .cover-box p { margin-bottom: 22px; }
+  .cover-box strong { color: var(--accent); font-weight: 500; }
+
+  .cover-sig {
+    margin-top: 32px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .cover-sig span {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 6px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-section { background: var(--bg); }
+
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  .skill-block {
+    background: var(--card);
+    padding: 36px 32px;
+  }
+
+  .skill-block-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+
+  .skill-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12px;
+    color: #8a9bb0;
+  }
+
+  .skill-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+
+  .skill-name { display: flex; align-items: center; }
+
+  .skill-lv {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--green-dim);
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--surface);
+    text-align: center;
+    padding: 100px 72px;
+  }
+
+  .contact-items {
+    display: flex;
+    justify-content: center;
+    gap: 72px;
+    margin-top: 52px;
+    flex-wrap: wrap;
+  }
+
+  .contact-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+  .contact-icon { font-size: 24px; }
+
+  .contact-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--green-dim);
+    text-transform: uppercase;
+  }
+
+  .contact-val { font-size: 14px; color: var(--white); }
+
+  .tg-btn {
+    display: inline-block;
+    margin-top: 52px;
+    background: var(--green);
+    color: var(--bg);
+    padding: 16px 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .tg-btn:hover { background: var(--accent); transform: translateY(-3px); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid #111;
+    padding: 24px 72px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  footer span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #2a3545;
+    letter-spacing: 1px;
+  }
+
+  /* ── ANIM ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    section, .hero { padding: 80px 24px; }
+    .divider { margin: 0 24px; }
+    .match-grid { grid-template-columns: 1fr 1fr; }
+    .exp-row { grid-template-columns: 1fr; gap: 16px; }
+    .exp-tags { flex-direction: row; align-items: flex-start; }
+    .skills-layout { grid-template-columns: 1fr; }
+    .hero-stats { gap: 28px; flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 8px; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LEE CHI · 应聘</div>
+  <ul class="nav-links">
+    <li><a href="#match">岗位匹配</a></li>
+    <li><a href="#exp">工作经历</a></li>
+    <li><a href="#cover">求职信</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">申请职位 · MEXC · 合约运营实习生</div>
+    <h1 class="hero-name">LEE<br><em>CHI</em></h1>
+    <div class="hero-role">WEB3 COMMUNITY · OPERATIONS · AI-POWERED WORKFLOW</div>
+    <p class="hero-desc">
+      具备<strong>真实 Web3 社群运营经验</strong>，熟悉加密市场生态，擅长竞品分析与活动策划执行。
+      深度使用 AI 工具提升工作效率，快速学习能力强，对合约市场有浓厚兴趣并持续自我提升。
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">3+</div>
+        <div class="hero-stat-label">Years Web3</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">20K+</div>
+        <div class="hero-stat-label">Community Size</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">5+</div>
+        <div class="hero-stat-label">Intl. Background</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">∞</div>
+        <div class="hero-stat-label">Learning Speed</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">联系我 · Contact</a>
+      <a href="#cover" class="btn-ghost">阅读求职信 ↓</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── JD MATCH ── -->
+<section class="match-section" id="match">
+  <div class="sec-label">JD Match · 岗位匹配</div>
+  <h2 class="sec-title">职责逐条对应</h2>
+  <div class="match-grid">
+
+    <div class="match-item">
+      <div class="match-num">JD 01</div>
+      <div class="match-jd">参与合约资产上币全流程评估，跟进落地事宜</div>
+      <div class="match-me">在 GASH 参与过 <strong>NFT/GameFi 项目上线全流程</strong>评估，包含技术对接、市场可行性与时间节点协调，具备类似流程的项目管理经验。</div>
+      <span class="match-tag">PROJECT MGMT</span>
+    </div>
+
+    <div class="match-item">
+      <div class="match-num">JD 02</div>
+      <div class="match-jd">撰写官方公告：参数调整、资产下架等</div>
+      <div class="match-me">主导撰写 <strong>Gamania GASH 官方 Discord / Twitter 公告</strong>，具备加密语境下的清晰文案能力，熟悉用户敏感度与信息传达节奏。</div>
+      <span class="match-tag">COPYWRITING</span>
+    </div>
+
+    <div class="match-item">
+      <div class="match-num">JD 03</div>
+      <div class="match-jd">统筹活动策划、物料筹备、资源位上线</div>
+      <div class="match-me">独立策划执行 <strong>Binance NFT Twitter Space、Taipei Blockchain Week 展位、GASH Holder Party</strong> 等多场活动，从创意到落地全程负责。</div>
+      <span class="match-tag">EVENT OPS</span>
+    </div>
+
+    <div class="match-item">
+      <div class="match-num">JD 04</div>
+      <div class="match-jd">开展友商调研，分析竞品合约产品并输出报告</div>
+      <div class="match-me">具备<strong>市场调研与结构化分析</strong>能力（建筑研究训练 + IAAC 竞品分析课程），熟悉 Binance、OKX、MEXC 等主流平台产品逻辑，能快速输出竞品报告。</div>
+      <span class="match-tag">MARKET RESEARCH</span>
+    </div>
+
+    <div class="match-item">
+      <div class="match-num">JD 05</div>
+      <div class="match-jd">日常运营支持及其他弹性工作任务</div>
+      <div class="match-me">拥有<strong>高执行力与弹性工作经验</strong>，曾在建筑事务所、Web3 公司、学术研究机构中同时处理多线任务，抗压能力强，可长期稳定到岗。</div>
+      <span class="match-tag">EXECUTION</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EXPERIENCE ── -->
+<section class="exp-section" id="exp">
+  <div class="sec-label">Experience · 工作经历</div>
+  <h2 class="sec-title">相关背景</h2>
+  <div class="exp-list">
+
+    <div class="exp-row">
+      <div class="exp-meta">
+        <div class="exp-period">2022.10 — 2023.04</div>
+        <div class="exp-co">Gamania GASH</div>
+        <div class="exp-role">COMMUNITY MANAGER</div>
+      </div>
+      <div class="exp-body">
+        在遊戲橘子区块链营销部门独立运营 Web3 GameFi 社群。<strong>Discord + Twitter 双平台</strong>内容策略、AMA 主持、KOL 协调、白名单活动、NFT 发行规划。与 <strong>Binance NFT 合办 Twitter Space</strong>（1,626 听众）；统筹 Taipei Blockchain Week 展位及游戏外包推广；社群成长至 <strong>Twitter 20,170 / Discord 14,362</strong>。熟悉加密用户心理、市场节奏与竞品动态。
+      </div>
+      <div class="exp-tags">
+        <span class="etag">Discord</span>
+        <span class="etag">Twitter</span>
+        <span class="etag">Binance NFT</span>
+        <span class="etag">NFT / GameFi</span>
+        <span class="etag">AMA</span>
+      </div>
+    </div>
+
+    <div class="exp-row">
+      <div class="exp-meta">
+        <div class="exp-period">2022.10 — 2022.12</div>
+        <div class="exp-co">ComDAO</div>
+        <div class="exp-role">WEB3 COMMUNITY OPS</div>
+      </div>
+      <div class="exp-body">
+        负责 <strong>DNA CLUB</strong> 项目社群运营与市场推广，协调 KOL 资源，策划课程活动，建立 Web3 深度社群模块，执行白名单与市场推广策略。
+      </div>
+      <div class="exp-tags">
+        <span class="etag">Web3</span>
+        <span class="etag">KOL</span>
+        <span class="etag">Community</span>
+      </div>
+    </div>
+
+    <div class="exp-row">
+      <div class="exp-meta">
+        <div class="exp-period">2024.09 — 2025.06</div>
+        <div class="exp-co">IAAC · Barcelona</div>
+        <div class="exp-role">MASTER · ROBOTICS & ADVANCED CONSTRUCTION</div>
+      </div>
+      <div class="exp-body">
+        研究 AI 辅助设计、机器人制造与参数化系统。培养了<strong>结构化分析、数据驱动决策与快速原型迭代</strong>能力。日常使用 Claude、ChatGPT、Midjourney、ComfyUI 等 AI 工具整合到研究工作流中。
+      </div>
+      <div class="exp-tags">
+        <span class="etag">AI Tools</span>
+        <span class="etag">Python</span>
+        <span class="etag">Research</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── COVER LETTER ── -->
+<section class="cover-section" id="cover">
+  <div class="sec-label">Cover Letter · 求职信</div>
+  <h2 class="sec-title">为什么选我</h2>
+  <div class="cover-box">
+    <p>您好，</p>
+    <p>我是 <strong>Lee Chi</strong>，目前旅居巴塞罗那，正在完成建筑硕士论文，同时积极寻求 Web3 运营领域的实习机会。看到 MEXC 合约运营实习生的职位，我认为自己的背景与岗位需求高度契合。</p>
+    <p>在 <strong>Gamania GASH 遊戲橘子区块链营销部门</strong>担任 Community Manager 期间，我从零建立并独立运营 GameFi 社群，Twitter 社群成长至超过 <strong>20,000</strong> 人。期间与 Binance NFT 联合举办 Twitter Space，统筹 Taipei Blockchain Week 展位，完整经历了 Web3 项目从策划到落地的全流程。这让我对<strong>交易所生态、用户行为与加密市场节奏</strong>有了直观且实战的理解。</p>
+    <p>坦诚说明：我目前在<strong>现货与 NFT 交易</strong>上有实际操作经验，合约交易正处于系统学习阶段。但我对合约产品逻辑有持续深入的研究兴趣，理解保证金机制、多空逻辑与流动性管理的基础框架，并以此评估过多个主流交易所的合约产品差异。</p>
+    <p>在<strong>竞品分析与活动策划执行</strong>方面，我具备扎实的方法论与实战经验。深度使用 <strong>AI 工具（Claude、ChatGPT、Midjourney）</strong>辅助调研、文案与数据整理，能快速输出高质量的分析报告与运营物料。</p>
+    <p>我执行力强、能长期稳定到岗，对加密市场充满热情，相信能快速融入团队并贡献真实价值。期待与 MEXC 团队进一步交流。</p>
+    <p class="cover-sig">Lee Chi<span>Barcelona · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0563703363703337456268646c692b666a68">[email&#160;protected]</a> · +34 665 793 655 · TG: @aa_882020</span></p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ── -->
+<section class="skills-section">
+  <div class="sec-label">Skills · 技能</div>
+  <h2 class="sec-title">能力概览</h2>
+  <div class="skills-layout">
+
+    <div class="skill-block">
+      <div class="skill-block-title">Web3 · Community</div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Discord 运营</span><span class="skill-lv">EXPERT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Twitter / X 策略</span><span class="skill-lv">EXPERT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>NFT / GameFi 生态</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>KOL 协调</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>活动企划执行</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>现货 / NFT 交易</span><span class="skill-lv">USER</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>合约交易（学习中）</span><span class="skill-lv">LEARNING</span></div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-title">AI · Research · Writing</div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Claude / ChatGPT</span><span class="skill-lv">DAILY</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Midjourney / ComfyUI</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>竞品分析报告</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>官方文案撰写</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Python 脚本</span><span class="skill-lv">INTERMEDIATE</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>数据整理分析</span><span class="skill-lv">INTERMEDIATE</span></div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-title">Design · Production</div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Adobe Photoshop / AI / ID</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>After Effects / Premiere</span><span class="skill-lv">INTERMEDIATE</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Blender / C4D</span><span class="skill-lv">PROFICIENT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>Rhino / Grasshopper</span><span class="skill-lv">EXPERT</span></div>
+      <div class="skill-line"><span class="skill-name"><span class="skill-dot"></span>语言：中文 / English B2</span><span class="skill-lv">BILINGUAL</span></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CONTACT ── -->
+<section class="contact-section" id="contact">
+  <div class="sec-label">Contact · 联系方式</div>
+  <h2 class="sec-title" style="font-family:'Bebas Neue';font-size:clamp(40px,5vw,64px);margin-bottom:0">立即联系</h2>
+  <div class="contact-items">
+    <div class="contact-item">
+      <div class="contact-icon">📱</div>
+      <div class="contact-lbl">Phone</div>
+      <div class="contact-val">+34 665 793 655</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">✉️</div>
+      <div class="contact-lbl">Email</div>
+      <div class="contact-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3452410252410206745359555d581a575b59">[email&#160;protected]</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">💬</div>
+      <div class="contact-lbl">Telegram</div>
+      <div class="contact-val">@Riri88880</div>
+    </div>
+  </div>
+  <a href="https://t.me/nbrj20

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi Lee — Luxury Real Estate · Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --dark: #1a1814;
+    --gold: #c9a96e;
+    --mid: #a09890;
+    --light: #e8e2d6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #1a1814;
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  .about, .credentials, .contact {
+    background: #1a1814;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    mix-blend-mode: normal;
+  }
+
+  nav::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(26,24,20,0.9), transparent);
+    z-index: -1;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6rem 4rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.75);
+    line-height: 2;
+    max-width: 280px;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-img-container {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: fadeIn 1.5s 0.2s forwards;
+  }
+
+  .hero-img-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--dark) 0%, transparent 40%),
+                linear-gradient(to top, var(--dark) 0%, transparent 30%);
+  }
+
+  /* Barcelona skyline SVG background */
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, #2a2420 0%, #1a1814 50%, #0f0d0b 100%);
+  }
+
+  .hero-bg-pattern::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(184,150,90,0.05), transparent);
+  }
+
+  /* Decorative grid lines */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(184,150,90,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,150,90,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: fadeIn 2s 1s forwards;
+    opacity: 0;
+  }
+
+  .hero-number {
+    position: absolute;
+    right: 4rem;
+    bottom: 6rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12rem;
+    font-weight: 300;
+    color: rgba(184,150,90,0.06);
+    line-height: 1;
+    z-index: 1;
+    pointer-events: none;
+    animation: fadeIn 2s 1s forwards;
+    opacity: 0;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  .scroll-text {
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 10rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-top: 0.5rem;
+  }
+
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-text h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .about-text p {
+    font-size: 0.78rem;
+    line-height: 2.2;
+    color: rgba(245,240,232,0.85);
+    margin-bottom: 1.5rem;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin: 3rem 0;
+  }
+
+  /* EXPERTISE */
+  .expertise {
+    padding: 6rem 4rem 10rem;
+    background: #141210;
+    border-top: 1px solid rgba(201,169,110,0.2);
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+  }
+
+  .expertise-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .expertise-header {
+    display: flex;
+    align-items: baseline;
+    gap: 3rem;
+    margin-bottom: 5rem;
+  }
+
+  .expertise-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .card {
+    padding: 3rem 2.5rem;
+    background: #1e1b17;
+    border: 1px solid rgba(201,169,110,0.15);
+    transition: background 0.4s, border-color 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px;
+    height: 0;
+    background: var(--gold);
+    transition: height 0.4s;
+  }
+
+  .card:hover { background: #252118; border-color: rgba(201,169,110,0.35); }
+  .card:hover::before { height: 100%; }
+
+  .card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: rgba(201,169,110,0.35);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    display: block;
+  }
+
+  .card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: #f5f0e8;
+  }
+
+  .card p {
+    font-size: 0.7rem;
+    line-height: 2;
+    color: rgba(245,240,232,0.8);
+  }
+
+  /* CREDENTIALS */
+  .credentials {
+    padding: 10rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+  }
+
+  .cred-block h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .cred-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(184,150,90,0.1);
+  }
+
+  .cred-item:first-of-type { border-top: 1px solid rgba(184,150,90,0.1); }
+
+  .cred-year {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .cred-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .cred-sub {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact::before {
+    content: 'BARCELONA';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18vw;
+    font-weight: 300;
+    color: rgba(184,150,90,0.03);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .contact-inner { position: relative; z-index: 1; }
+
+  .contact h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .contact h2 em { font-style: italic; color: var(--gold); }
+
+  .contact-sub {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.65);
+    margin-bottom: 4rem;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .contact-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(184,150,90,0.4);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .contact-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid rgba(184,150,90,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mid);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    color: var(--mid);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* Intersection observer fade */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 8rem 2rem 4rem; }
+    .hero-right { display: none; }
+    .about { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 2rem; }
+    .cards { grid-template-columns: 1fr; }
+    .credentials { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 4rem; }
+    .expertise { padding: 5rem 2rem; }
+    .contact { padding: 5rem 2rem; }
+    .contact-links { flex-direction: column; align-items: center; gap: 2rem; }
+    footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Chi Lee</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#credentials">Background</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Luxury Real Estate · Barcelona</p>
+    <h1 class="hero-name">Chi<br><em>Lee</em></h1>
+    <p class="hero-desc">
+      Architecture · Design · Chinese Market<br>
+      Connecting discerning buyers with<br>
+      Barcelona's finest properties
+    </p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-number">李</div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label reveal">About</div>
+  <div class="about-text reveal">
+    <h2>Where <em>architecture</em><br>meets the art of<br>living well</h2>
+    <p>
+      I am an architect and real estate consultant based in Barcelona, specialising in luxury residential properties for Chinese-speaking clients. With two master's degrees in architecture and a background in computational design, I bring a depth of property analysis that goes far beyond aesthetics.
+    </p>
+    <p>
+      My approach is simple: I help discerning buyers find not just a property, but a home that reflects their vision of exceptional living in one of Europe's most coveted cities.
+    </p>
+    <div class="divider"></div>
+    <p style="font-size: 0.65rem; letter-spacing: 0.1em; color: var(--mid);">
+      巴塞隆納豪宅顧問 · 專為華語客戶提供服務
+    </p>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="expertise" id="expertise">
+  <div class="expertise-inner">
+    <div class="expertise-header reveal">
+      <span class="section-label">Expertise</span>
+      <h2>What I offer</h2>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <span class="card-num">01</span>
+        <h3>Architectural Intelligence</h3>
+        <p>Two master's degrees in architecture enable a level of property analysis unavailable through conventional agents — spatial quality, structural integrity, material excellence, and design legacy.</p>
+      </div>
+      <div class="card reveal">
+        <span class="card-num">02</span>
+        <h3>Chinese Market Access</h3>
+        <p>Native Mandarin speaker with an established presence on Chinese digital platforms. I serve as a trusted bridge between Barcelona's luxury market and Chinese high-net-worth buyers.</p>
+      </div>
+      <div class="card reveal">
+        <span class="card-num">03</span>
+        <h3>Barcelona Insider</h3>
+        <p>Years of living and studying in Barcelona have given me an intimate knowledge of its finest neighbourhoods — from Pedralbes villas to Eixample penthouses to coastal Maresme estates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="credentials" id="credentials">
+  <div class="cred-block reveal">
+    <h2>Education</h2>
+    <div class="cred-item">
+      <span class="cred-year">2024 — 2025</span>
+      <p class="cred-title">Master in Architectural Design Ecology</p>
+      <p class="cred-sub">UPC BarcelonaTech · MADE_ ETSAV · Barcelona</p>
+    </div>
+    <div class="cred-item">
+      <span class="cred-year">2022 — 2023</span>
+      <p class="cred-title">Master in Robotics & Advanced Construction</p>
+      <p class="cred-sub">IAAC — Institute for Advanced Architecture of Catalonia · Barcelona</p>
+    </div>
+  </div>
+  <div class="cred-block reveal">
+    <h2>Experience</h2>
+    <div class="cred-item">
+      <span class="cred-year">2023 — Present</span>
+      <p class="cred-title">Property Consultant · Chinese Market</p>
+      <p class="cred-sub">Independent · Xiaohongshu Platform · Barcelona Rentals & Sales</p>
+    </div>
+    <div class="cred-item">
+      <span class="cred-year">Languages</span>
+      <p class="cred-title">Mandarin Chinese · English</p>
+      <p class="cred-sub">Native · Professional</p>
+    </div>
+    <div class="cred-item">
+      <span class="cred-year">Certification</span>
+      <p class="cred-title">AICAT Registration — In Process</p>
+      <p class="cred-sub">Agents Immobiliaris de Catalunya · Generalitat de Catalunya</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner reveal">
+    <h2>Let's find your<br><em>perfect property</em></h2>
+    <p class="contact-sub">Barcelona · Available for viewings & consultations</p>
+    <div class="contact-links">
+      <a href="mailto:chi@example.com" class="contact-link">Email</a>
+      <a href="#" class="contact-link">Xiaohongshu 小红书</a>
+      <a href="#" class="contact-link">LinkedIn</a>
+      <a href="tel:+34000000000" class="contact-link">Call</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Chi Lee · Barcelona · All rights reserved</p>
+  <span class="footer-logo">Chi Lee</span>
+  <p>巴塞隆納豪宅顧問</p>
+</footer>
+
+<script>
+  // Intersection Observer for reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
